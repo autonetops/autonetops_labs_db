@@ -6,7 +6,7 @@ POSTGRES_CONTAINER="netbox-docker-postgres-1"  # Replace with your PostgreSQL co
 NETBOX_CONTAINER="netbox-docker-netbox-1"      # Replace with your NetBox container name
 DB_USER="netbox"
 DB_NAME="netbox"
-DUMP_FILE="netbox_20250709_102126.sql"         # Replace with your dump file
+DUMP_FILE="netbox_backup.sql"         # Replace with your dump file
 
 # Stop NetBox services
 docker compose stop netbox-docker-netbox-1 netbox-docker-netbox-worker-1 netbox-docker-netbox-housekeeping-1
