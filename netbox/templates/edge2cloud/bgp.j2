@@ -1,0 +1,10 @@
+vrf definition {{ vrf.name }}
+  rd {{ vrf.rd }}
+router bgp {{ bgp.bgp_as }}
+  address-family ipv4 vrf clab-mgmt
+    router-id {{ bgp.bgp_router_id }}
+    {%- for neighbor in bgp.neighbors %}
+        neighbor {{ neighbor.ip }} remote-as {{ neighbor.remote_as }}
+        neighbor {{ neighbor.ip }} ebgp-multihop {{ ebgp-multihop }}
+        neighbor {{ neighbor.ip }} activate
+    {%- endfor %}
