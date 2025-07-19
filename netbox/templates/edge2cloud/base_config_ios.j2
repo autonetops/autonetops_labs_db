@@ -5,19 +5,19 @@ ip name-server {{ server }}
 {%- endfor %}
 
 {% for interface in device.interfaces.all() %}
-{%- if interface.mgmt_only == false %}
+{%- if not interface.mgmt_only %}
 interface {{ interface.name }}
- {%- if interface.enabled == false %}
-  shutdown
- {%- elif interface.enabled == true %}
+ {%- if interface.enabled %}
   no shutdown
+ {%- else %}
+  shutdown
  {%- endif %}
-{%- endif %}
- ip address {{ device.primary_ip.address }} {{ device.primary_ip.address.netmask }}
+{%- else %}
+  ip address {{ device.primary_ip.address }} {{ device.primary_ip.address.netmask }}
 {%- endif %}
 {%- endfor %}
 
-snmp-server community {{ snmp_ro_community }} RO 
+snmp-server community {{ snmp_ro_community }} RO
 
 {% for server in syslog_servers %}
 logging host {{ server }} transport udp port 1514
