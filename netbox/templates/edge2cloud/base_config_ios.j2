@@ -4,7 +4,7 @@ hostname {{ device.name }}
 ip name-server {{ server }}
 {%- endfor %}
 
-{% for interface in device.interfaces %}
+{% for interface in device.interfaces.all() %}
 {%- if not interface.mgmt_only %}
 interface {{ interface.name }}
  {%- if interface.enabled %}
