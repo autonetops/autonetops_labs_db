@@ -12,6 +12,9 @@ interface {{ interface.name }}
  {%- else %}
   shutdown
  {%- endif %}
+ {% for int in interface.ip-addresses.all() %}
+ ip address {{ int.primary_ip4 }}
+ {%- endfor %}
 {%- endif %}
 {%- endfor %}
 
