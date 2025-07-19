@@ -5,6 +5,6 @@ router bgp {{ bgp.bgp_as }}
     router-id {{ bgp.bgp_router_id }}
     {%- for neighbor in bgp.neighbors %}
         neighbor {{ neighbor.ip }} remote-as {{ neighbor.remote_as }}
-        neighbor {{ neighbor.ip }} ebgp-multihop {{ ebgp-multihop }}
+        neighbor {{ neighbor.ip }} ebgp-multihop {{ neighbor.ebgp_multihop | default(1) }}
         neighbor {{ neighbor.ip }} activate
     {%- endfor %}
