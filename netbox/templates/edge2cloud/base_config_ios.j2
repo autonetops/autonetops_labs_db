@@ -12,8 +12,8 @@ interface {{ interface.name }}
  {%- else %}
   shutdown
  {%- endif %}
- {% for ip in interface.ip_addresses.all() %}
- ip address {{ ip }}
+ {%- for ip_mask in interface.ip_addresses.all() %}
+ ip address {{ ip_mask }}
  {%- endfor %}
 {%- endif %}
 {%- endfor %}
