@@ -7,7 +7,7 @@ ip name-server {{ server }}
 {% for interface in device.interfaces.all() %}
 {%- if not interface.mgmt_only %}
 interface {{ interface.name }}
- {%- if device.platform == 'EOS' %}
+ {%- if device.platform.name == 'EOS' %}
   no switchport
  {%- endif %}
  {%- if interface.enabled %}
@@ -32,7 +32,7 @@ ntp server {{ server }}
 {%- endfor %}
 
 {{ device.platform | lower }}
-{%- if device.platform == 'EOS' %}
+{%- if device.platform.name | lower == 'eos' %}
 management api gnmi
   transport grpc GRPC
     port 6030
