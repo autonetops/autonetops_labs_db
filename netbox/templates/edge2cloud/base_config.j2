@@ -31,8 +31,8 @@ logging host {{ server }} transport udp port 1514
 ntp server {{ server }}
 {%- endfor %}
 
-{{ device.platform }}
-{%- if device.platform == 'EOS'%}
+{{ device.platform | lower }}
+{%- if device.platform == 'EOS' %}
 management api gnmi
   transport grpc GRPC
     port 6030
