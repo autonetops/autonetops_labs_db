@@ -1,10 +1,26 @@
 vrf definition {{ vrf.name }}
   rd {{ vrf.rd }}
-router bgp {{ bgp.bgp_as }}
-  address-family ipv4 vrf clab-mgmt
-    router-id {{ bgp.bgp_router_id }}
-    {%- for neighbor in bgp.neighbors %}
-        neighbor {{ neighbor.ip }} remote-as {{ neighbor.remote_as }}
-        neighbor {{ neighbor.ip }} ebgp-multihop {{ neighbor.ebgp_multihop | default(1) }}
-        neighbor {{ neighbor.ip }} activate
-    {%- endfor %}
+router bgp {{ bgp_as }}
+ bgp log-neighbor-changes
+ !
+ {%- for neighbor in neighbors %}
+ {%- if neighbor.remote_as == bgp_as %}
+ address-family ipv4 vrf {{ neighbor.vrf }}
+  router-id {{ bgp.bgp_router_id }}
+  neighbor {{ neighbor.neighbor_ipv4 }} remote-as {{ neighbor.remote_as }}
+  neighbor {{ neighbor.neighbor_ipv4 }} update-source {{ neighbor.source }}
+  neighbor {{ neighbor.neighbor_ipv4 }} timers 10 30 30
+  neighbor {{ neighbor.neighbor_ipv4 }} activate
+  neighbor {{ neighbor.neighbor_ipv4 }} default-originate
+  neighbor {{ neighbor.neighbor_ipv4 }} soft-reconfiguration inbound
+  !
+  {%- else %}
+  neighbor {{ neighbor.neighbor_ipv4 }} remote-as {{ neighbor.remote_as }}
+  neighbor {{ neighbor.neighbor_ipv4 }} next-hop-self
+  neighbor {{ neighbor.neighbor_ipv4 }} activate
+  neighbor {{ neighbor.neighbor_ipv4 }} soft-reconfiguration inbound
+  {%- endif %}
+  {%- endfor %}
+ exit-address-family
+
+
