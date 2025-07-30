@@ -59,15 +59,15 @@ interface Tunnel0
 !
 !
 !
-vrf definition {{ vrf.name }}
-  rd {{ vrf.rd }}
-router bgp {{ bgp_as }}
+vrf definition {{ aws_bgp.vrf.name }}
+  rd {{ aws_bgp.vrf.rd }}
+router bgp {{ aws_bgp.bgp_as }}
  bgp log-neighbor-changes
  !
- {%- for neighbor in neighbors %}
- {%- if neighbor.remote_as == bgp_as %}
+ {%- for neighbor in aws_bgp.neighbors %}
+ {%- if neighbor.remote_as == aws_bgp.bgp_as %}
  address-family ipv4 vrf {{ neighbor.vrf }}
-  router-id {{ bgp.bgp_router_id }}
+  router-id {{ aws_bgp.router_id }}
   neighbor {{ neighbor.neighbor_ipv4 }} remote-as {{ neighbor.remote_as }}
   neighbor {{ neighbor.neighbor_ipv4 }} update-source {{ neighbor.source }}
   neighbor {{ neighbor.neighbor_ipv4 }} timers 10 30 30
