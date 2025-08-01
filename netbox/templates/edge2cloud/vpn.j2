@@ -66,7 +66,7 @@ router bgp {{ aws_bgp.bgp_as }}
  bgp router-id {{ aws_bgp.router_id }}
  !
  {%- for neighbor in aws_bgp.neighbors %}
- {%- if neighbor.remote_as == aws_bgp.bgp_as %}
+ {%- if neighbor.remote_as != aws_bgp.bgp_as %}
  {# eBGP #}
  address-family ipv4 vrf {{ neighbor.vrf }}
   neighbor {{ neighbor.neighbor_ipv4 }} remote-as {{ neighbor.remote_as }}
