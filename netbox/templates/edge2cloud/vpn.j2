@@ -69,6 +69,8 @@ router bgp {{ aws_bgp.bgp_as }}
  {%- if neighbor.remote_as != aws_bgp.bgp_as %}
  {# eBGP #}
  address-family ipv4 vrf {{ neighbor.vrf }}
+  network 12.12.12.0 mask 255.255.255.0
+  network 1.1.1.0 mask 255.255.255.0
   neighbor {{ neighbor.neighbor_ipv4 }} remote-as {{ neighbor.remote_as }}
   neighbor {{ neighbor.neighbor_ipv4 }} update-source {{ neighbor.source }}
   neighbor {{ neighbor.neighbor_ipv4 }} timers 10 30 30
